@@ -1,0 +1,32 @@
+{
+    "model": "doubao-seed-1-8-251228",
+    "temperature": 0.3,
+    "max_completion_tokens": 4000,
+    "timeout": 600,
+    "thinking": "disabled",
+
+    "stopping_rules": {
+        "max_rounds": 2,
+        "convergence_margin": 0.12,
+        "min_new_info_threshold": 0.2
+    },
+
+    "agents": {
+        "cost": {
+            "name": "成本分析Agent",
+            "description": "评估各选项的时间、金钱、资源成本"
+        },
+        "risk": {
+            "name": "风险评估Agent",
+            "description": "识别决策中的不确定性和潜在失败后果"
+        },
+        "value": {
+            "name": "用户价值Agent",
+            "description": "评估各选项与用户价值观的匹配程度"
+        },
+        "supervisor": {
+            "name": "综合决策Agent",
+            "description": "汇总分析并给出最终决策建议"
+        }
+    }
+}
