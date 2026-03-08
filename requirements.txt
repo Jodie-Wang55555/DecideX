@@ -1,5 +1,13 @@
 # Editable install with no version control (agent==0.0.1)
 -e /Users/pareshraut/Desktop/Data_Science/Vanguard/customerx
+
+# RAG 依赖
+chromadb>=0.5.0
+sentence-transformers>=3.0.0
+
+# Web Search 依赖
+duckduckgo-search>=6.0.0
+langchain-community>=0.3.0
 annotated-types==0.7.0
 anyio==4.9.0
 blockbuster==1.5.24

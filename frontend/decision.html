@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>决策助手 - DecideX</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="logo-mark">D</div>
+                <span class="logo-text">DecideX</span>
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="nav-link">首页</a></li>
+                <li><a href="decision.html" class="nav-link active">决策助手</a></li>
+                <li><a href="about.html" class="nav-link">关于我们</a></li>
+                <li><a href="help.html" class="nav-link">帮助</a></li>
+            </ul>
+            <a href="help.html" class="nav-cta">使用帮助 →</a>
+            <button class="nav-toggle" id="navToggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <main class="decision-main">
+        <div class="decision-container">
+            <!-- 左侧面板 -->
+            <aside class="decision-sidebar">
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">分析状态</h3>
+                    <div class="analysis-cards">
+                        <div class="analysis-card">
+                            <div class="analysis-icon">💡</div>
+                            <div class="analysis-info">
+                                <div class="analysis-label">成本分析</div>
+                                <div class="analysis-status" id="cost-status">等待中</div>
+                            </div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-icon">⚖️</div>
+                            <div class="analysis-info">
+                                <div class="analysis-label">风险评估</div>
+                                <div class="analysis-status" id="risk-status">等待中</div>
+                            </div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-icon">🎯</div>
+                            <div class="analysis-info">
+                                <div class="analysis-label">价值评估</div>
+                                <div class="analysis-status" id="value-status">等待中</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-section">
+                    <h3 class="sidebar-title">使用提示</h3>
+                    <div class="tips-list">
+                        <div class="tip-item">
+                            <span class="tip-icon">✍️</span>
+                            <span class="tip-text">详细描述您的决策场景</span>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">💬</span>
+                            <span class="tip-text">诚实回答系统提出的问题</span>
+                        </div>
+                        <div class="tip-item">
+                            <span class="tip-icon">🔍</span>
+                            <span class="tip-text">综合考虑所有分析结果</span>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- 聊天区域 -->
+            <div class="decision-chat">
+                <div class="chat-header">
+                    <h2>智能决策助手</h2>
+                    <p class="chat-subtitle">告诉我您面临的决策问题，我将为您进行多维度深度分析</p>
+                </div>
+
+                <div class="messages-container" id="messages-container">
+                    <div class="welcome-message">
+                        <div class="welcome-icon">🤖</div>
+                        <h3>欢迎使用 DecideX</h3>
+                        <p>请描述您面临的决策问题，例如：</p>
+                        <div class="example-questions">
+                            <button class="example-btn" data-question="我应该接受这份新工作吗？">💼 我应该接受这份新工作吗？</button>
+                            <button class="example-btn" data-question="我应该投资这个项目吗？">📈 我应该投资这个项目吗？</button>
+                            <button class="example-btn" data-question="我应该搬家到另一个城市吗？">🏡 我应该搬家到另一个城市吗？</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-container">
+                    <div class="input-wrapper">
+                        <button class="icon-btn voice-btn" id="voice-btn" title="语音输入">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                        </button>
+                        <textarea
+                            id="message-input"
+                            placeholder="描述您的决策问题..."
+                            rows="1"
+                            maxlength="2000"
+                        ></textarea>
+                        <button class="send-btn" id="send-btn" title="发送">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                <line x1="22" y1="2" x2="11" y2="13"/>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="input-footer">
+                        <span class="char-count"><span id="char-count">0</span>/2000</span>
+                        <span class="typing-indicator" id="typing-indicator">智能体正在分析...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 语音弹窗 -->
+    <div class="voice-modal" id="voice-modal">
+        <div class="voice-modal-content">
+            <div class="voice-animation">
+                <div class="voice-circle"></div>
+            </div>
+            <p>正在录音，请说话...</p>
+            <button class="stop-voice-btn" id="stop-voice-btn">停止录音</button>
+        </div>
+    </div>
+
+    <script src="common.js"></script>
+    <script src="decision.js"></script>
+</body>
+</html>

@@ -1,10 +1,7 @@
 {
   "dependencies": ["."],
   "graphs": {
-    "supervisor": "./src/supervisor/graph.py:graph",
-    "swarm": "./src/swarm/graph.py:graph",
     "decision-agent": "./src/decision-agent/graph.py:graph"
   },
   "env": ".env"
 }
-
