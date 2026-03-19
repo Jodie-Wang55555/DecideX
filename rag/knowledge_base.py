@@ -44,7 +44,7 @@ def _get_embedding_function():
             model_name="text-embedding-ada-002",
         )
     return embedding_functions.SentenceTransformerEmbeddingFunction(
-        model_name="paraphrase-multilingual-MiniLM-L12-v2"
+        model_name="all-MiniLM-L6-v2"
     )
 
 

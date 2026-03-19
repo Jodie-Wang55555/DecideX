@@ -47,26 +47,41 @@
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>1. 访问"决策助手"页面</p>
-                            <p>2. 在输入框中描述您面临的决策问题</p>
-                            <p>3. 系统会从成本、风险、价值三个维度提出关键问题</p>
-                            <p>4. 诚实回答这些问题</p>
-                            <p>5. 系统综合分析后给出决策建议</p>
+                            <p>1. 访问"决策助手"页面，描述您面临的决策问题</p>
+                            <p>2. 系统自动完成意图识别，将问题重写为结构化形式</p>
+                            <p>3. RAG 检索相关知识，成本/风险 Agent 实时搜索最新数据</p>
+                            <p>4. 三个专家 Agent 并行分析，综合 Agent 汇总并收敛判断</p>
+                            <p>5. 输出带 Citation 来源标注的结构化决策报告</p>
                         </div>
                     </div>
 
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h3>DecideX 的分析结果可靠吗？</h3>
+                            <h3>什么是 RAG 检索增强？系统是怎么用的？</h3>
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>DecideX 采用多智能体系统，从多个维度进行科学分析。但请注意：</p>
+                            <p>RAG（Retrieval Augmented Generation）即检索增强生成，DecideX 实现了双路 RAG：</p>
                             <ul>
-                                <li>分析结果仅供参考，最终决策仍需您自己做出</li>
-                                <li>建议结合实际情况和个人判断</li>
-                                <li>重要决策建议咨询专业人士</li>
+                                <li><strong>知识库 RAG</strong>：成本/风险/价值三个专业知识库，BM25+向量混合召回，Self-RAG 过滤，Cohere 精排后注入 Agent</li>
+                                <li><strong>记忆 RAG</strong>：存储您的历史决策（Gemini 提取摘要后向量化），下次相似场景自动召回，实现个性化分析</li>
                             </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>系统能搜索最新信息吗？</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>可以。成本分析 Agent 和风险评估 Agent 都集成了 Web Search 工具（DuckDuckGo），会在需要时自动搜索：</p>
+                            <ul>
+                                <li>最新房价、贷款利率、物价水平</li>
+                                <li>行业政策变化、公司近况</li>
+                                <li>市场风险预警、实时薪资水平</li>
+                            </ul>
+                            <p>搜索结果会被标注来源，您可以在 Citation 列表中查看。</p>
                         </div>
                     </div>
 
@@ -76,29 +91,47 @@
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>DecideX 适用于各种决策场景，包括但不限于：</p>
+                            <p>系统支持 7 类意图标签，覆盖：</p>
                             <ul>
-                                <li>职业选择（换工作、创业等）</li>
-                                <li>投资决策（项目投资、理财等）</li>
-                                <li>生活决策（搬家、学习新技能等）</li>
-                                <li>商业决策（产品开发、市场策略等）</li>
+                                <li>🏢 职业选择（换工作、跳槽、创业、考研等）</li>
+                                <li>📈 投资理财（股票、基金、股权投资等）</li>
+                                <li>🏠 消费购买（买房、买车、大额消费等）</li>
+                                <li>✈️ 旅行出行（目的地、行程规划等）</li>
+                                <li>📚 学习教育（选课、考证、留学等）</li>
+                                <li>👥 人际关系（合作、借钱、处理关系等）</li>
+                                <li>🔮 通用决策（其他类型）</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="faq-item">
                         <div class="faq-question">
-                            <h3>如何获得更好的分析结果？</h3>
+                            <h3>决策报告中的 [1][2] 是什么意思？</h3>
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>为了获得更准确的分析，建议：</p>
+                            <p>这是 <strong>Citation 引用机制</strong>，表示该论点的知识来源。报告末尾会附完整参考文献列表，标注每条依据的来源类型：</p>
                             <ul>
-                                <li>详细描述决策场景和相关背景</li>
-                                <li>诚实回答系统提出的所有问题</li>
-                                <li>提供尽可能多的相关信息</li>
-                                <li>认真思考每个问题的答案</li>
+                                <li>📚 [知识库] — 来自专业知识库文档</li>
+                                <li>🧠 [历史记忆] — 来自您的历史决策记录</li>
+                                <li>🌐 [网络搜索] — 来自实时 Web 搜索结果</li>
                             </ul>
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h3>为什么分析有时会自动停止？</h3>
+                            <span class="faq-toggle">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <p>系统内置了<strong>决策停止规则（Stopping Rules）</strong>，在以下情况自动终止分析：</p>
+                            <ul>
+                                <li><strong>收敛停止</strong>：连续两轮 Top1 推荐不变且领先优势 ≥ 12%</li>
+                                <li><strong>低收益停止</strong>：本轮新增观点 &lt; 2 个，分析开始重复</li>
+                                <li><strong>硬停止</strong>：最多 3 轮分析后强制输出结论</li>
+                            </ul>
+                            <p>这确保了系统不会陷入无效循环，高效给出结论。</p>
                         </div>
                     </div>
 
@@ -108,7 +141,7 @@
                             <span class="faq-toggle">+</span>
                         </div>
                         <div class="faq-answer">
-                            <p>在决策助手页面，点击输入框左侧的麦克风图标即可开启语音输入。系统会实时将您的语音转换为文字。需要注意：</p>
+                            <p>在决策助手页面，点击输入框左侧的麦克风图标即可开启语音输入。需要注意：</p>
                             <ul>
                                 <li>需要浏览器授予麦克风权限</li>
                                 <li>建议在安静环境下使用</li>
@@ -124,23 +157,23 @@
                 <div class="tips-grid">
                     <div class="tip-card">
                         <div class="tip-icon">📝</div>
-                        <h3>详细描述</h3>
-                        <p>尽可能详细地描述您的决策场景，包括背景、选项、约束条件等，细节越多分析越准确。</p>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon">🤔</div>
-                        <h3>深入思考</h3>
-                        <p>认真思考系统提出的每个问题，这些问题是帮助您理清思路、全面分析的关键引导。</p>
-                    </div>
-                    <div class="tip-card">
-                        <div class="tip-icon">💭</div>
-                        <h3>综合考虑</h3>
-                        <p>不要只看单一维度，要综合考虑成本、风险、价值三个方面的分析结果再做决策。</p>
+                        <h3>描述要具体</h3>
+                        <p>包含具体数字（薪资、金额、年限），系统可调用 Web Search 获取更精准的对比数据，分析更可信。</p>
                     </div>
                     <div class="tip-card">
                         <div class="tip-icon">🔄</div>
-                        <h3>多次迭代</h3>
-                        <p>可以从不同角度反复描述同一决策问题，获取更多维度的分析视角，完善判断。</p>
+                        <h3>多次使用积累记忆</h3>
+                        <p>每次决策会自动保存到记忆库，使用次数越多，系统越了解您的偏好风格，个性化越精准。</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">📎</div>
+                        <h3>查阅 Citation 来源</h3>
+                        <p>报告末尾的参考文献列表说明每条依据的来源，方便您自行核实关键数据，做出更有把握的决定。</p>
+                    </div>
+                    <div class="tip-card">
+                        <div class="tip-icon">🧠</div>
+                        <h3>相信意图重写</h3>
+                        <p>系统会将您的模糊问题重写为结构化版本，这会让分析更聚焦——若觉得理解有误可直接告知纠正。</p>
                     </div>
                 </div>
             </section>

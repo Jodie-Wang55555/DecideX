@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>决策助手 - DecideX</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <link rel="stylesheet" href="styles.css?v=20260318i">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
@@ -19,10 +21,7 @@
             <ul class="nav-menu">
                 <li><a href="index.html" class="nav-link">首页</a></li>
                 <li><a href="decision.html" class="nav-link active">决策助手</a></li>
-                <li><a href="about.html" class="nav-link">关于我们</a></li>
-                <li><a href="help.html" class="nav-link">帮助</a></li>
             </ul>
-            <a href="help.html" class="nav-cta">使用帮助 →</a>
             <button class="nav-toggle" id="navToggle">
                 <span></span><span></span><span></span>
             </button>
@@ -33,9 +32,71 @@
         <div class="decision-container">
             <!-- 左侧面板 -->
             <aside class="decision-sidebar">
+
+                <!-- 卡片1：回复模式 -->
+                <div class="sidebar-section mode-toggle-section">
+                    <h3 class="sidebar-title">回复模式</h3>
+                    <div class="mode-toggle-wrap">
+                        <button class="mode-btn active" id="mode-simple" onclick="setMode('simple')">
+                            <span class="mode-icon">⚡</span>
+                            <span class="mode-label">简洁模式</span>
+                            <span class="mode-desc">只看结论</span>
+                        </button>
+                        <button class="mode-btn" id="mode-detailed" onclick="setMode('detailed')">
+                            <span class="mode-icon">🔬</span>
+                            <span class="mode-label">详细模式</span>
+                            <span class="mode-desc">看分析过程</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 卡片2：对话管理 -->
                 <div class="sidebar-section">
-                    <h3 class="sidebar-title">分析状态</h3>
-                    <div class="analysis-cards">
+                    <h3 class="sidebar-title">对话管理</h3>
+                    <div class="chat-action-btns">
+                        <button class="chat-action-btn" id="new-chat-btn" onclick="newConversation()">
+                            <span class="chat-action-icon">✏️</span>
+                            <span class="chat-action-label">新对话</span>
+                        </button>
+                        <button class="chat-action-btn" onclick="focusSearchChat()">
+                            <span class="chat-action-icon">🔍</span>
+                            <span class="chat-action-label">搜索对话</span>
+                        </button>
+                    </div>
+                    <!-- 搜索框（点击"搜索对话"后展开） -->
+                    <div class="chat-search-wrap" id="chat-search-wrap" style="display:none">
+                        <input class="chat-search-input" id="chat-search-input" type="text" placeholder="搜索历史对话..." oninput="filterRecents(this.value)">
+                    </div>
+                </div>
+
+                <!-- 卡片3：历史对话列表 -->
+                <div class="sidebar-section recents-card">
+                    <h3 class="sidebar-title">你的聊天</h3>
+                    <div class="recents-list" id="recents-list"></div>
+                    <div class="recents-empty" id="recents-empty">暂无历史对话</div>
+                </div>
+
+                <!-- 卡片4：分析流水线（可折叠） -->
+                <div class="sidebar-section">
+                    <div class="pipeline-header" onclick="togglePipeline()">
+                        <h3 class="sidebar-title" style="margin-bottom:0">分析流水线</h3>
+                        <svg id="pipeline-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </div>
+                    <div class="analysis-cards" id="pipeline-body">
+                        <div class="analysis-card">
+                            <div class="analysis-icon">🧠</div>
+                            <div class="analysis-info">
+                                <div class="analysis-label">意图识别</div>
+                                <div class="analysis-status" id="intent-status">等待中</div>
+                            </div>
+                        </div>
+                        <div class="analysis-card">
+                            <div class="analysis-icon">🔍</div>
+                            <div class="analysis-info">
+                                <div class="analysis-label">RAG 检索</div>
+                                <div class="analysis-status" id="rag-status">等待中</div>
+                            </div>
+                        </div>
                         <div class="analysis-card">
                             <div class="analysis-icon">💡</div>
                             <div class="analysis-info">
@@ -57,25 +118,22 @@
                                 <div class="analysis-status" id="value-status">等待中</div>
                             </div>
                         </div>
-                    </div>
-                </div>
-
-                <div class="sidebar-section">
-                    <h3 class="sidebar-title">使用提示</h3>
-                    <div class="tips-list">
-                        <div class="tip-item">
-                            <span class="tip-icon">✍️</span>
-                            <span class="tip-text">详细描述您的决策场景</span>
+                        <div class="analysis-card">
+                            <div class="analysis-icon">👤</div>
+                            <div class="analysis-info">
+                                <div class="analysis-label">个人匹配度</div>
+                                <div class="analysis-status" id="match-status">等待中</div>
+                            </div>
                         </div>
-                        <div class="tip-item">
-                            <span class="tip-icon">💬</span>
-                            <span class="tip-text">诚实回答系统提出的问题</span>
-                        </div>
-                        <div class="tip-item">
-                            <span class="tip-icon">🔍</span>
-                            <span class="tip-text">综合考虑所有分析结果</span>
+                        <div class="analysis-card">
+                            <div class="analysis-icon">📎</div>
+                            <div class="analysis-info">
+                                <div class="analysis-label">Citation 生成</div>
+                                <div class="analysis-status" id="citation-status">等待中</div>
+                            </div>
                         </div>
                     </div>
+                    <button class="reset-profile-btn" onclick="resetUserProfile()">🔄 重置用户画像</button>
                 </div>
             </aside>
 
@@ -83,18 +141,19 @@
             <div class="decision-chat">
                 <div class="chat-header">
                     <h2>智能决策助手</h2>
-                    <p class="chat-subtitle">告诉我您面临的决策问题，我将为您进行多维度深度分析</p>
+                    <p class="chat-subtitle">意图识别 · BM25+向量混合检索 · Multi-Agent 协同分析</p>
                 </div>
 
                 <div class="messages-container" id="messages-container">
                     <div class="welcome-message">
                         <div class="welcome-icon">🤖</div>
                         <h3>欢迎使用 DecideX</h3>
-                        <p>请描述您面临的决策问题，例如：</p>
+                        <p>输入您的决策问题，系统将自动完成：意图识别 → RAG 检索 → Multi-Agent 分析 → Citation 报告</p>
                         <div class="example-questions">
-                            <button class="example-btn" data-question="我应该接受这份新工作吗？">💼 我应该接受这份新工作吗？</button>
-                            <button class="example-btn" data-question="我应该投资这个项目吗？">📈 我应该投资这个项目吗？</button>
-                            <button class="example-btn" data-question="我应该搬家到另一个城市吗？">🏡 我应该搬家到另一个城市吗？</button>
+                            <button class="example-btn" data-question="我在互联网公司做产品经理，有创业公司offer薪资涨30%，我该去吗？">💼 是否接受创业公司 Offer？</button>
+                            <button class="example-btn" data-question="手里有50万，朋友推荐我买某个创业公司的股权，说有10倍回报，要投吗？">📈 是否投资创业公司股权？</button>
+                            <button class="example-btn" data-question="北京月薪3万，要不要在通州买300万的房子？手头有60万首付">🏡 是否在通州买房？</button>
+                            <button class="example-btn" data-question="非211本科，想考研还是直接找工作？目标是互联网产品岗">🎓 考研 vs 直接工作？</button>
                         </div>
                     </div>
                 </div>
@@ -143,6 +202,6 @@
     </div>
 
     <script src="common.js"></script>
-    <script src="decision.js"></script>
+    <script src="decision.js?v=20260318h"></script>
 </body>
 </html>
